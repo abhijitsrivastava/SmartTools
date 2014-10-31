@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SmartTools</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="msg_header">Welcome to SmartTools\n\nNumber Plate Recognition\nTake A Picture\nLive Streaming\nFace Recognition</string>
+    <string name="msg_not_streaming">Not streaming</string>
+    <string name="msg_starting_live_streaming">Starting Live Streaming, please wait &#8230;</string>
+    <string name="msg_tap_to_view_option">Tap to view option</string>
+    <string name="msg_take_a_picture_home">\n\n  Send A Picture\n\n  Take A Picture</string>
+    
+    <string name="msg_tap_to_take_picture">Tap To Take Picture</string>
+    <string name="msg_swipe_down_to_go_back">Swipe Down To Go Back</string>
+    <string name="msg_searching_please_wait">Searching, Please Wait....</string>
+    <string name="msg_initializing_please_wait">Initializing, Please Wait....</string>
+    
+    <string name="label_share">Tap to share</string>
+    <string name="label_capture">Tap to capture</string>
+        
+    <string name="menu_number_plate_recognition">Number Plate Recognition</string>
+    <string name="menu_take_a_picture">Take A Picture</string>
+    <string name="menu_live_streaming">Live Streaming</string>
+    <string name="menu_face_recognition">Face Recognition</string>
+    <string name="menu_start_streaming">Start Streaming</string>
+    <string name="menu_stop_streaming">Stop Streaming</string>
+
+    <string name="menu_send_a_picture">Send A Picture</string>
+        
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<trigger keyword="@string/app_name" >
+
+   <constraints camera="true" network="true" />
+
+</trigger>

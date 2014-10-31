@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.glasstools"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:targetSdkVersion="19" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <uses-permission android:name="com.google.android.glass.permission.DEVELOPMENT" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.DeviceDefault" >
+        <activity android:name="com.android.glasstools.HomeActivity" >
+            <intent-filter>
+                <action android:name="com.google.android.glass.action.VOICE_TRIGGER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="com.google.android.glass.VoiceTrigger"
+                android:resource="@xml/voice_trigger" />
+        </activity>
+        <activity android:name="com.android.glasstools.anpr.NumberPlateRecognitionActivity" />
+        <activity android:name="com.android.glasstools.face.FaceRecognitionActivity" />
+        <activity android:name="com.android.glasstools.picture.TakeAPictureHomeActivity" />
+        <activity android:name="com.android.glasstools.streaming.LiveStreamingActivity" />
+        <activity android:name="com.android.glasstools.face.ShowIdentityActivity" />
+        <activity android:name="com.android.glasstools.picture.CameraActivity" />
+        <activity android:name="com.android.glasstools.picture.ShareActivity" />
+        <activity android:name="com.android.glasstools.picture.ShowSavedPictureActivity" />
+    </application>
+
+</manifest>
