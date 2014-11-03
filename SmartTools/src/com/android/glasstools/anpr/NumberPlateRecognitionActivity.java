@@ -81,9 +81,14 @@ public class NumberPlateRecognitionActivity extends Activity {
 		bitmapOptions.inScaled = false;
 		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.carsmall, bitmapOptions);
 		
+		byte[] captureData = Session.getInstant().getImageBytes();
+		Bitmap captureBitmap = BitmapFactory.decodeByteArray(captureData , 0, captureData .length);
+		
+		captureBitmap = getResizedBitmap(captureBitmap, 640);
+		
 		CardBuilder cardBuilder = new CardBuilder(getApplicationContext(),
 				Layout.TEXT);
-		cardBuilder.addImage(bmp);
+		cardBuilder.addImage(captureBitmap);
 		setContentView(cardBuilder.getView());
 
 		//We use:
@@ -91,7 +96,7 @@ public class NumberPlateRecognitionActivity extends Activity {
 		// - automatic image rotation (based on light and dark fields on the photo)
 		// - left, top, right, bottom clipping: 5% 15% 5% 0% 
 		// - focus point is approximately at the center (50%) horizontally and at the 75% vertically (of the ORIGINAL IMAGE)
-		if (anprLib.loadImage(bmp, ANPRLibrary.ROTATION_AUTO, 5, 15, 95, 100, 50, 75)){
+		if (anprLib.loadImage(captureBitmap, ANPRLibrary.ROTATION_AUTO, 5, 15, 95, 100, 50, 75)){
 			processPhoto();
 		}
 	}
@@ -244,6 +249,21 @@ public class NumberPlateRecognitionActivity extends Activity {
 		processThread.start();
 	}
     
+	
+	private Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 0) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+}
 
 
 

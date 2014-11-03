@@ -44,6 +44,7 @@
         <activity android:name="com.android.glasstools.picture.CameraActivity" />
         <activity android:name="com.android.glasstools.picture.ShareActivity" />
         <activity android:name="com.android.glasstools.picture.ShowSavedPictureActivity" />
+        <activity android:name="com.android.glasstools.anpr.CameraActivity" />
     </application>
 
 </manifest>

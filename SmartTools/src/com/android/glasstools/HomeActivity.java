@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.android.glasstools.anpr.CameraActivity;
 import com.android.glasstools.anpr.NumberPlateRecognitionActivity;
 import com.android.glasstools.face.FaceRecognitionActivity;
 import com.android.glasstools.picture.TakeAPictureHomeActivity;
@@ -95,7 +96,7 @@ public class HomeActivity extends Activity {
 			case 1: // start Stopwatch activity
 				intent = new Intent(this, NumberPlateRecognitionActivity.class);
 				startActivity(intent);
-				//finish();
+				// finish();
 				break;
 			case 2:
 				// start Noice Level Meter activity
@@ -108,13 +109,13 @@ public class HomeActivity extends Activity {
 				// start Noice Level Meter activity
 				intent = new Intent(this, LiveStreamingActivity.class);
 				startActivity(intent);
-				//finish();
+				// finish();
 				break;
 			case 4:
 				// start Noice Level Meter activity
 				intent = new Intent(this, FaceRecognitionActivity.class);
 				startActivity(intent);
-				//finish();
+				// finish();
 				break;
 			default:
 				return true;
@@ -151,7 +152,7 @@ public class HomeActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case 1: // start NumberPlateRecognitionActivity
-			intent = new Intent(this, NumberPlateRecognitionActivity.class);
+			intent = new Intent(this, CameraActivity.class);
 			startActivity(intent);
 			finish();
 			break;
