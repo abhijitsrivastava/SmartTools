@@ -56,9 +56,12 @@ public class FetchIdentityTask extends AsyncTask<String, String, String> {
 
 		File file = new File(imageUri.getPath());
 		String url = "http://res.cloudinary.com/doi38h3hr/image/upload/v1413102074/afuzj1td4virweuqwsmw.jpg";
-		Cloudinary cloudinary = new Cloudinary(Cloudinary.asMap("cloud_name",
+		/*Cloudinary cloudinary = new Cloudinary(Cloudinary.asMap("cloud_name",
 				"doi38h3hr", "api_key", "876521916516342", "api_secret",
-				"00L0PfCC13iT_BGzmVNrsesuT0I"));
+				"00L0PfCC13iT_BGzmVNrsesuT0I"));*/
+		Cloudinary cloudinary = new Cloudinary(Cloudinary.asMap("cloud_name",
+				"dlgxm8obn", "api_key", "179359492776334", "api_secret",
+				"rydimGdfJtVvDWC-87A-zJ5ycOI"));
 		try {
 			JSONObject uploadResult = cloudinary.uploader().upload(new FileInputStream(file), null);
 			url = (String) uploadResult.getString("url");

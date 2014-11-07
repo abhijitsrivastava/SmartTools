@@ -12,10 +12,10 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.android.glasstools.anpr.CameraActivity;
+import com.android.glasstools.anpr.CaptureNumberPlateActivity;
 import com.android.glasstools.anpr.NumberPlateRecognitionActivity;
-import com.android.glasstools.face.FaceRecognitionActivity;
-import com.android.glasstools.picture.TakeAPictureHomeActivity;
+import com.android.glasstools.face.InputFaceActivity;
+import com.android.glasstools.picture.TakeAPictureActivity;
 import com.android.glasstools.streaming.LiveStreamingActivity;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
@@ -94,13 +94,13 @@ public class HomeActivity extends Activity {
 		if (featureId == WindowUtils.FEATURE_VOICE_COMMANDS) {
 			switch (item.getItemId()) {
 			case 1: // start Stopwatch activity
-				intent = new Intent(this, NumberPlateRecognitionActivity.class);
+				intent = new Intent(this, CaptureNumberPlateActivity.class);
 				startActivity(intent);
 				// finish();
 				break;
 			case 2:
 				// start Noice Level Meter activity
-				intent = new Intent(this, TakeAPictureHomeActivity.class);
+				intent = new Intent(this, TakeAPictureActivity.class);
 				startActivity(intent);
 				finish();
 				break;
@@ -113,7 +113,9 @@ public class HomeActivity extends Activity {
 				break;
 			case 4:
 				// start Noice Level Meter activity
-				intent = new Intent(this, FaceRecognitionActivity.class);
+				// intent = new Intent(this, FaceRecognitionActivity.class);
+				// intent = new Intent(this, CaptureFaceActivity.class);
+				intent = new Intent(this, InputFaceActivity.class);
 				startActivity(intent);
 				// finish();
 				break;
@@ -152,13 +154,13 @@ public class HomeActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case 1: // start NumberPlateRecognitionActivity
-			intent = new Intent(this, CameraActivity.class);
+			intent = new Intent(this, CaptureNumberPlateActivity.class);
 			startActivity(intent);
 			finish();
 			break;
 
 		case 2: // start TakeAPictureActivity
-			intent = new Intent(this, TakeAPictureHomeActivity.class);
+			intent = new Intent(this, TakeAPictureActivity.class);
 			startActivity(intent);
 			finish();
 			break;
@@ -170,7 +172,9 @@ public class HomeActivity extends Activity {
 			break;
 
 		case 4: // start TakeAPictureActivity
-			intent = new Intent(this, FaceRecognitionActivity.class);
+			// intent = new Intent(this, FaceRecognitionActivity.class);
+			// intent = new Intent(this, CaptureFaceActivity.class);
+			intent = new Intent(this, InputFaceActivity.class);
 			startActivity(intent);
 			finish();
 			break;

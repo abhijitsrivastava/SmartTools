@@ -22,6 +22,13 @@ public class BaseGlassActivity extends Activity implements FingerListener, Scrol
         mGestureDetector = createGestureDetector(this);
     }
 
+    @Override
+    protected void onResume() {
+        mGestureDetector = createGestureDetector(this);
+        super.onResume();
+    }
+
+    
     protected boolean onTap() {
         return false;
     }
@@ -42,6 +49,11 @@ public class BaseGlassActivity extends Activity implements FingerListener, Scrol
         return false;
     }
     
+    protected boolean onTwoSwipeDown() {
+        return false;
+    }
+    
+    
     @Override
     public void onFingerCountChanged(int arg0, int arg1) {
 
@@ -51,7 +63,7 @@ public class BaseGlassActivity extends Activity implements FingerListener, Scrol
     public boolean onScroll(float arg0, float arg1, float arg2) {
         return false;
     }
-
+    
     /*
      * Send generic motion events to the gesture detector
      */
@@ -84,7 +96,9 @@ public class BaseGlassActivity extends Activity implements FingerListener, Scrol
                 }else if (gesture == Gesture.SWIPE_DOWN) {
                     //Log.v(TAG, "onSwipeLeft");
                     return onSwipeDown();
-                }
+                }else if (gesture == Gesture.TWO_SWIPE_DOWN) {
+                	 return onTwoSwipeDown();
+				}
                 return false;
             }
         });

@@ -28,7 +28,6 @@ import android.widget.TextView;
 
 import com.android.glasstools.HomeActivity;
 import com.android.glasstools.R;
-import com.android.glasstools.picture.TakeAPictureHomeActivity;
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
 import com.google.android.glass.touchpad.GestureDetector;
@@ -53,7 +52,6 @@ public class LiveStreamingActivity extends Activity implements
 
 	private View transparentView;
 	private TextView textViewNotStreaming;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +94,8 @@ public class LiveStreamingActivity extends Activity implements
 		mClient.setSession(mSession);
 		mClient.setCallback(this);
 
-		//textViewTranslusantLayer.setText(getResources().getString(
-			//	R.string.app_name));
+		// textViewTranslusantLayer.setText(getResources().getString(
+		// R.string.app_name));
 
 		// Use this to force streaming with the MediaRecorder API
 		// mSession.getVideoTrack().setStreamingMethod(MediaStream.MODE_MEDIARECORDER_API);
@@ -332,7 +330,8 @@ public class LiveStreamingActivity extends Activity implements
 				} else if (gesture == Gesture.SWIPE_DOWN) {
 					Utils.dLog("Gesture.SWIPE_DOWN");
 					mAudioManager.playSoundEffect(Sounds.DISMISSED);
-					Intent intent = new Intent(LiveStreamingActivity.this, HomeActivity.class);
+					Intent intent = new Intent(LiveStreamingActivity.this,
+							HomeActivity.class);
 					startActivity(intent);
 					finish();
 				}

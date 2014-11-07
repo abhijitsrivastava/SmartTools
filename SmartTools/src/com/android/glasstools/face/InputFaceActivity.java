@@ -14,27 +14,46 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.glasstools.HomeActivity;
 import com.android.glasstools.R;
-import com.android.glasstools.streaming.LiveStreamingActivity;
 import com.android.glasstools.streaming.Utils;
 import com.google.android.glass.media.Sounds;
 
-public class FaceRecognitionActivity extends BaseGlassActivity implements
+public class InputFaceActivity extends BaseGlassActivity implements
 		SurfaceHolder.Callback {
+
 	private static final String TAG = "TakePictureActivity";
 
 	private Camera camera;
 	private boolean mHasSurface;
 	private boolean isImageNotCaptured = true;
+	
+	private boolean mCameraConfigured = false;
 
 	private AudioManager mAudioManager;
+	
+	private TextView mZoomLevelView;
 
 	public static Intent newIntent(Context context) {
 		Intent intent = new Intent(context, FaceRecognitionActivity.class);
 		return intent;
+	}
+
+	// code copied from
+	// http://developer.android.com/guide/topics/media/camera.html
+	/** A safe way to get an instance of the Camera object. */
+	public static Camera getCameraInstance() {
+		Camera c = null;
+		try {
+			c = Camera.open(); // attempt to get a Camera instance
+		} catch (Exception e) {
+			// Camera is not available (in use or does not exist)
+			Log.e(TAG, "Camera is not available");
+		}
+		return c; // returns null if camera is unavailable
 	}
 
 	@Override
@@ -94,7 +113,7 @@ public class FaceRecognitionActivity extends BaseGlassActivity implements
 		super.onDestroy();
 		camera = null;
 	}
-
+	
 	private void startCamera() {
 		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -117,26 +136,34 @@ public class FaceRecognitionActivity extends BaseGlassActivity implements
 		}
 
 		try {
-			camera = Camera.open();
+			//camera = Camera.open();
+			camera = getCameraInstance();
 			camera.setPreviewDisplay(surfaceHolder);
 		} catch (IOException e) {
-			Toast.makeText(FaceRecognitionActivity.this,
+			Toast.makeText(InputFaceActivity.this,
 					"Unable to start camera, please restart and try again",
 					Toast.LENGTH_LONG).show();
 			// Log.d(TAG, e.getMessage());
 			// e.printStackTrace();
 		} catch (Exception e) {
-			Toast.makeText(FaceRecognitionActivity.this,
+			Toast.makeText(InputFaceActivity.this,
 					"Unable to start camera, please restart and try again",
 					Toast.LENGTH_LONG).show();
 			// Log.d(TAG, e.getMessage());
 			// e.printStackTrace();
 		}
-		Camera.Parameters parameters = camera.getParameters();
-
-		parameters.setPreviewFpsRange(30000, 30000);
-		parameters.setPreviewSize(640, 360);
-		camera.startPreview();
+		if (!mCameraConfigured) {
+			Camera.Parameters parameters = camera.getParameters();
+			parameters.setPreviewFpsRange(30000, 30000);
+			parameters.setPreviewSize(640, 360);
+			camera.setParameters(parameters);
+			mCameraConfigured = true;
+		}
+		if (mCameraConfigured && null != camera) {
+			mZoomLevelView = (TextView) findViewById(R.id.zoomLevel);
+			camera.setZoomChangeListener(onZoomChangeListener);
+			camera.startPreview();
+		}
 	}
 
 	@Override
@@ -153,12 +180,39 @@ public class FaceRecognitionActivity extends BaseGlassActivity implements
 	protected boolean onSwipeDown() {
 		Utils.dLog("Gesture.SWIPE_DOWN");
 		mAudioManager.playSoundEffect(Sounds.DISMISSED);
-		Intent intent = new Intent(FaceRecognitionActivity.this,
-				HomeActivity.class);
+		Intent intent = new Intent(InputFaceActivity.this, HomeActivity.class);
 		startActivity(intent);
 		finish();
 		return false;
 	}
+	
+	@Override
+	protected boolean onSwipeLeft() {
+		// TODO Auto-generated method stub
+				Camera.Parameters parameters = camera.getParameters();
+				int zoom = parameters.getZoom();
+				zoom -= 5;
+				if (zoom < 0) {
+					zoom = 0;
+				}
+				camera.stopSmoothZoom();
+				camera.startSmoothZoom(zoom);
+				return super.onSwipeLeft();
+	};
+	
+	@Override
+	protected boolean onSwipeRight() {
+		// TODO Auto-generated method stub
+				Camera.Parameters parameters = camera.getParameters();
+				int zoom = parameters.getZoom();
+				zoom += 5;
+				if (zoom > parameters.getMaxZoom()) {
+					zoom = parameters.getMaxZoom();
+				}
+				camera.stopSmoothZoom();
+				camera.startSmoothZoom(zoom);
+				return super.onSwipeRight();
+	};
 
 	PictureCallback mPicture = new PictureCallback() {
 		@Override
@@ -169,7 +223,7 @@ public class FaceRecognitionActivity extends BaseGlassActivity implements
 			Session.getInstant().setImageBytes(captureData);
 			isImageNotCaptured = true;
 			startActivity(intent);
-
+			finish();
 		}
 	};
 
@@ -204,5 +258,14 @@ public class FaceRecognitionActivity extends BaseGlassActivity implements
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		mHasSurface = false;
 	}
+	
+	Camera.OnZoomChangeListener onZoomChangeListener = new Camera.OnZoomChangeListener() {
+
+		@Override
+		public void onZoomChange(int zoomValue, boolean stopped, Camera camera) {
+			// TODO Auto-generated method stub
+			mZoomLevelView.setText("ZOOM: " + zoomValue);
+		}
+	};
 
 }

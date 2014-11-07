@@ -148,7 +148,7 @@ public class NumberPlateRecognitionActivity extends Activity {
 					mAudioManager.playSoundEffect(Sounds.DISMISSED);
 					Intent intent = new Intent(
 							NumberPlateRecognitionActivity.this,
-							HomeActivity.class);
+							CaptureNumberPlateActivity.class);
 					startActivity(intent);
 					finish();
 					return false;

@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_name"
+        android:scaleType="fitXY" />
+
     <RelativeLayout
         android:id="@+id/body_layout"
         android:layout_width="match_parent"
@@ -15,13 +22,6 @@
         tools:ignore="UselessLeaf" >
 
         <!-- Put your widgets inside this RelativeLayout. -->
-
-        <ImageView
-            android:id="@+id/imageview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:scaleType="fitXY" />
 
         <LinearLayout
             android:id="@+id/progress"

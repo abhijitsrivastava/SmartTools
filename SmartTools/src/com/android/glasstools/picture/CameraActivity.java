@@ -2,7 +2,6 @@ package com.android.glasstools.picture;
 
 import java.io.IOException;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import com.android.glasstools.HomeActivity;
 import com.android.glasstools.R;
-import com.android.glasstools.face.FaceRecognitionActivity;
 import com.android.glasstools.face.ImageManager;
 import com.android.glasstools.streaming.Utils;
 import com.google.android.glass.media.Sounds;
@@ -145,7 +143,7 @@ public class CameraActivity extends BaseGlassActivity implements
 	protected boolean onSwipeDown() {
 		Utils.dLog("Gesture.SWIPE_DOWN");
 		mAudioManager.playSoundEffect(Sounds.DISMISSED);
-		Intent intent = new Intent(CameraActivity.this, TakeAPictureHomeActivity.class);
+		Intent intent = new Intent(CameraActivity.this, HomeActivity.class);
 		startActivity(intent);
 		finish();
 		return false;

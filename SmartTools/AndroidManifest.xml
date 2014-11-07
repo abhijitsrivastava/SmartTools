@@ -41,10 +41,13 @@
         <activity android:name="com.android.glasstools.picture.TakeAPictureHomeActivity" />
         <activity android:name="com.android.glasstools.streaming.LiveStreamingActivity" />
         <activity android:name="com.android.glasstools.face.ShowIdentityActivity" />
-        <activity android:name="com.android.glasstools.picture.CameraActivity" />
+        <activity android:name="com.android.glasstools.picture.TakeAPictureActivity" />
         <activity android:name="com.android.glasstools.picture.ShareActivity" />
         <activity android:name="com.android.glasstools.picture.ShowSavedPictureActivity" />
-        <activity android:name="com.android.glasstools.anpr.CameraActivity" />
+        <activity android:name="com.android.glasstools.anpr.CaptureNumberPlateActivity" />
+        <activity android:name="com.android.glasstools.face.CaptureFaceActivity"/>
+         <activity android:name="com.android.glasstools.face.InputFaceActivity"/>
+        
     </application>
 
 </manifest>
