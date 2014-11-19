@@ -149,6 +149,7 @@ public class ShareActivity extends Activity {
 	public void onCompleteUpdateStatusRequest(String prediction) {
 		showToast(prediction);
 		progress.setVisibility(View.GONE);
+		Toast.makeText(activity, "", Toast.LENGTH_LONG).show();
 		finish();
 	}
 }

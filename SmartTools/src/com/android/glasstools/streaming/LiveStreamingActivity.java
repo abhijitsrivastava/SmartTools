@@ -34,42 +34,38 @@ import com.google.android.glass.touchpad.GestureDetector;
 
 public class LiveStreamingActivity extends Activity implements
 		RtspClient.Callback, Session.Callback, SurfaceHolder.Callback {
-
 	private AudioManager mAudioManager;
 	private GestureDetector mGestureDetector;
-
 	private SurfaceView mSurfaceView;
 	// private TextView mTextBitrate;
 	private View mProgressBar;
 	private Session mSession;
 	private RtspClient mClient;
-
 	private String serverUrl;
 	private String username;
 	private String password;
 	private String streamingMode;
 	private String glassId;
-
 	private View transparentView;
 	private TextView textViewNotStreaming;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		Utils.dLog("Start of onCreate");
-
 		super.onCreate(savedInstanceState);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_live_streaming);
-
 		// android.os.Debug.waitForDebugger();
-		serverUrl = "rtsp://ec2-54-187-106-124.us-west-2.compute.amazonaws.com:1935/live/12345.stream";
-		username = "glass";
-		password = "glass";
+		//serverUrl = "rtsp://ec2-54-187-106-124.us-west-2.compute.amazonaws.com:1935/live/12345.stream";
+		//username = "glass";
+		//password = "glass";
+		
+		serverUrl = "rtsp://ec2-54-148-132-87.us-west-2.compute.amazonaws.com:1935/live/12345.stream";
+		username = "ipixel";
+		password = "ipixel";
 		streamingMode = "security";
 		glassId = "12345";
-
 		mGestureDetector = createGestureDetector(this);
 		mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 		mSurfaceView = (SurfaceView) findViewById(R.id.surface);
@@ -77,7 +73,6 @@ public class LiveStreamingActivity extends Activity implements
 		mProgressBar = (View) findViewById(R.id.progress_bar);
 		transparentView = (View) findViewById(R.id.view_layer);
 		textViewNotStreaming = (TextView) findViewById(R.id.textview_not_streaming);
-
 		// Configures the SessionBuilder
 		mSession = SessionBuilder
 				.getInstance()
@@ -88,27 +83,20 @@ public class LiveStreamingActivity extends Activity implements
 				.setVideoEncoder(SessionBuilder.VIDEO_H264)
 				.setSurfaceView(mSurfaceView).setPreviewOrientation(0)
 				.setCallback(this).build();
-
 		// Configures the RTSP client
 		mClient = new RtspClient();
 		mClient.setSession(mSession);
 		mClient.setCallback(this);
-
 		// textViewTranslusantLayer.setText(getResources().getString(
 		// R.string.app_name));
-
 		// Use this to force streaming with the MediaRecorder API
 		// mSession.getVideoTrack().setStreamingMethod(MediaStream.MODE_MEDIARECORDER_API);
-
 		// Use this to stream over TCP
 		// mClient.setTransportMode(RtspClient.TRANSPORT_TCP);
-
 		// Use this if you want the aspect ratio of the surface view to
 		// respect the aspect ratio of the camera preview
 		// mSurfaceView.setAspectRatioMode(SurfaceView.ASPECT_RATIO_PREVIEW);
-
 		mSurfaceView.getHolder().addCallback(this);
-
 		if (streamingMode.equals("teacher")) {
 			selectQuality("640x360, 30 fps, 200 Kbps");
 		} else {
@@ -116,16 +104,13 @@ public class LiveStreamingActivity extends Activity implements
 			// 352x288, 30 fps, 400 Kbps
 			// selectQuality("640x360, 20 fps, 200 Kbps");
 		}
-
 		Utils.dLog("End of onCreate");
 	}
 
 	@Override
 	public void onStart() {
-
 		Utils.eLog("Start of onStart");
 		super.onStart();
-
 		Utils.dLog("End of onStart");
 	}
 
@@ -140,9 +125,7 @@ public class LiveStreamingActivity extends Activity implements
 	protected void onResume() {
 		Utils.dLog("Start of onResume");
 		super.onResume();
-
 		toggleStream();
-
 		// startRepeatingTask();
 		Utils.dLog("End of onResume");
 	}
@@ -153,27 +136,21 @@ public class LiveStreamingActivity extends Activity implements
 		if (mClient != null) {
 			mClient.release();
 		}
-
 		if (mSession != null) {
 			mSession.release();
 		}
-
 		if (mSurfaceView != null) {
 			mSurfaceView.getHolder().removeCallback(this);
 		}
-
 		mGestureDetector = null;
 		mAudioManager = null;
-
 		// stopRepeatingTask();
-
 		super.onPause();
 		Utils.dLog("End of onPause");
 	}
 
 	@Override
 	protected void onStop() {
-
 		Utils.dLog("Start of onStop");
 		super.onStop();
 		Utils.dLog("End of onStop");
@@ -181,20 +158,15 @@ public class LiveStreamingActivity extends Activity implements
 
 	// Connects/disconnects to the RTSP server and starts/stops the stream
 	public void toggleStream() {
-
 		mProgressBar.setVisibility(View.VISIBLE);
-
 		if (mClient.isStreaming()) {
 			// Stops the stream and disconnects from the RTSP server
 			mClient.stopStream();
 		} else {
-
 			String ip, port, path;
-
 			Utils.dLog("Server Url: " + serverUrl);
 			Utils.dLog("Username: " + username);
 			Utils.dLog("Password: " + password);
-
 			// We parse the URI written in the Editext
 			Pattern uri = Pattern.compile("rtsp://(.+):(\\d+)/(.+)");
 			// Matcher m = uri.matcher(mEditTextURI.getText()); m.find();
@@ -203,16 +175,13 @@ public class LiveStreamingActivity extends Activity implements
 			ip = m.group(1);
 			port = m.group(2);
 			path = m.group(3);
-
 			// mClient.setCredentials(mEditTextUsername.getText().toString(),
 			// mEditTextPassword.getText().toString());
 			mClient.setCredentials(username, password);
 			mClient.setServerAddress(ip, Integer.parseInt(port));
 			mClient.setStreamPath("/" + path);
 			mClient.startStream();
-
 			// View view = findViewById(R.id.view_layer); view.bringToFront();
-
 		}
 	}
 
@@ -237,17 +206,14 @@ public class LiveStreamingActivity extends Activity implements
 
 	@Override
 	public void onPreviewStarted() {
-
 	}
 
 	@Override
 	public void onSessionConfigured() {
-
 	}
 
 	@Override
 	public void onSessionStarted() {
-
 		mProgressBar.setVisibility(View.GONE);
 		Utils.showToast(this, "Tap to view options");
 	}
@@ -278,7 +244,6 @@ public class LiveStreamingActivity extends Activity implements
 		case Session.ERROR_OTHER:
 			break;
 		}
-
 		if (e != null) {
 			logError(e.getMessage());
 			e.printStackTrace();
@@ -301,7 +266,6 @@ public class LiveStreamingActivity extends Activity implements
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-
 	}
 
 	@Override
@@ -315,13 +279,11 @@ public class LiveStreamingActivity extends Activity implements
 	}
 
 	private GestureDetector createGestureDetector(final Context context) {
-
 		GestureDetector gestureDetector = new GestureDetector(context);
 		// Create a base listener for generic gestures
 		gestureDetector.setBaseListener(new GestureDetector.BaseListener() {
 			@Override
 			public boolean onGesture(Gesture gesture) {
-
 				if (gesture == Gesture.TAP) {
 					Utils.dLog("Gesture.TAP");
 					mAudioManager.playSoundEffect(Sounds.TAP);
@@ -338,14 +300,12 @@ public class LiveStreamingActivity extends Activity implements
 				return false;
 			}
 		});
-
 		gestureDetector.setFingerListener(new GestureDetector.FingerListener() {
 			@Override
 			public void onFingerCountChanged(int previousCount, int currentCount) {
 				// do something on finger count changes
 			}
 		});
-
 		gestureDetector.setScrollListener(new GestureDetector.ScrollListener() {
 			@Override
 			public boolean onScroll(float displacement, float delta,
@@ -358,7 +318,6 @@ public class LiveStreamingActivity extends Activity implements
 	}
 
 	// Send generic motion events to the gesture detector
-
 	@Override
 	public boolean onGenericMotionEvent(MotionEvent event) {
 		if (mGestureDetector != null) {
@@ -368,16 +327,13 @@ public class LiveStreamingActivity extends Activity implements
 	}
 
 	private void selectQuality(String setting) {
-
 		Pattern pattern = Pattern.compile("(\\d+)x(\\d+)\\D+(\\d+)\\D+(\\d+)");
 		Matcher matcher = pattern.matcher(setting);
-
 		matcher.find();
 		int width = Integer.parseInt(matcher.group(1));
 		int height = Integer.parseInt(matcher.group(2));
 		int framerate = Integer.parseInt(matcher.group(3));
 		int bitrate = Integer.parseInt(matcher.group(4)) * 1000;
-
 		mSession.setVideoQuality(new VideoQuality(width, height, framerate,
 				bitrate));
 		// showToast(setting);
@@ -391,9 +347,7 @@ public class LiveStreamingActivity extends Activity implements
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-
 		menu.clear();
-
 		// Start adding start/stop streaming in menu
 		if (mClient.isStreaming()) {
 			menu.add(0, 1, Menu.NONE,
@@ -412,32 +366,25 @@ public class LiveStreamingActivity extends Activity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		mAudioManager.playSoundEffect(Sounds.TAP);
-
 		switch (item.getItemId()) {
 		case 1:
-
 			if (mClient.isStreaming()) {
 				mClient.stopStream();
 				mSurfaceView.setVisibility(View.GONE);
 				textViewNotStreaming.setVisibility(View.VISIBLE);
 				transparentView.setBackgroundColor(Color.WHITE);
-
 			} else {
 				mSurfaceView.setVisibility(View.VISIBLE);
 				mProgressBar.setVisibility(View.VISIBLE);
 				textViewNotStreaming.setVisibility(View.GONE);
 				transparentView.setBackgroundColor(Color.TRANSPARENT);
 				mClient.startStream();
-
 			}
-
 			break;
 		default:
 			break;
 		}
-
 		return super.onOptionsItemSelected(item);
 	}
 }
