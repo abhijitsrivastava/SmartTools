@@ -61,7 +61,7 @@ public class LiveStreamingActivity extends Activity implements
 		//username = "glass";
 		//password = "glass";
 		
-		serverUrl = "rtsp://ec2-54-148-132-87.us-west-2.compute.amazonaws.com:1935/live/12345.stream";
+		serverUrl = "rtsp://ec2-54-169-19-24.ap-southeast-1.compute.amazonaws.com:1935/live/12345.stream";
 		username = "ipixel";
 		password = "ipixel";
 		streamingMode = "security";
